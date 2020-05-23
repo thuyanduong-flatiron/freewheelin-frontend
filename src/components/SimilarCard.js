@@ -2,23 +2,26 @@ import React from 'react'
 import { Button, Card, Image } from 'semantic-ui-react'
 
 const SimilarCard = (props) => {
+    const { similar } = props
+    const { problemType, unitName, problemURL } = similar
+
     return (
         <Card.Group>
             <Card fluid>
                 <Card.Content>
                     <Card.Description>
-                        {props.similar.problemType} <strong>{props.similar.unitName}</strong>  
-                        <Button floated='right' size='mini' basic color='green'>
-                            유사문항
+                        {problemType} <strong>{unitName}</strong>  
+                        <Button floated='right' size='mini' inverted color='blue'>
+                            교체
                         </Button>
-                        <Button floated='right' size='mini' basic color='red'>
-                            삭제
+                        <Button floated='right' size='mini' inverted color='blue'>
+                            추가
                         </Button>
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
                     <Image
-                    src={props.similar.problemURL}
+                    src={problemURL}
                     />
                 </Card.Content>
             </Card>
