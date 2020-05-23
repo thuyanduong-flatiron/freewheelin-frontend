@@ -6,7 +6,6 @@ class SimilarsContainer extends React.Component {
     render() {
         return (
             <div>
-                SimilarsContainer
                 {this.props.similars.map(s => <SimilarCard similar={s} />)}
             </div>
         )

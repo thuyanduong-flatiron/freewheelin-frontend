@@ -32,16 +32,12 @@ class App extends React.Component {
       <Grid stackable columns={2}>
         <Grid.Column>
           <Segment>
-
             <ProblemsContainer problems={this.state.problems} />
-
           </Segment>
         </Grid.Column>
         <Grid.Column>
           <Segment>
-
             <SimilarsContainer similars={this.state.similars} />
-
           </Segment>
         </Grid.Column>
       </Grid>

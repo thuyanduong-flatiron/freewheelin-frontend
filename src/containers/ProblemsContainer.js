@@ -6,7 +6,6 @@ class ProblemsContainer extends React.Component {
     render() {
         return (
             <div>
-                ProblemsContainer
                 {this.props.problems.map(p => <ProblemCard problem={p} />)}
             </div>
         )
