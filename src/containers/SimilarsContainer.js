@@ -1,18 +1,15 @@
 import React from 'react'
 import SimilarCard from '../components/SimilarCard'
-import { Button } from 'semantic-ui-react'
+import { Card, Button } from 'semantic-ui-react'
 
 class SimilarsContainer extends React.Component {
-
     render() {
-        //maybe think of better organization
-
         const { selectedProblem, name, similars, onClickAdd, onClickSwitch } = this.props
 
         let placeholder = 
         <div>
             <center>
-                <Button size='mini' inverted color='blue' content='유사문항'/>
+                <Button id='no-toggle' content='유사문항'/>
                 버튼을 누르면
             </center>
             <center>
@@ -22,12 +19,12 @@ class SimilarsContainer extends React.Component {
     
         return (
             <div>
-                <center><strong>문항 교체/추가</strong></center>
+                <Card fluid header='문항 교체/추가'/>
                 {selectedProblem ? (
-                    <div>
-                        <p>{name}</p>
-                        {similars.map(s => <SimilarCard key={s.id} similar={s} onClickAdd={onClickAdd} onClickSwitch={onClickSwitch} />)}
-                    </div>
+                        <Card.Group className='cards-container'>
+                            <Card fluid header={name}/>
+                            {similars.map((s, i) => <SimilarCard key={s.id} number={i+1} similar={s} onClickAdd={onClickAdd} onClickSwitch={onClickSwitch} />)}
+                        </Card.Group>
                     ) : (
                         placeholder
                     )

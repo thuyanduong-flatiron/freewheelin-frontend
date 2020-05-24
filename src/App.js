@@ -1,12 +1,10 @@
 import React from 'react';
 import ProblemsContainer from './containers/ProblemsContainer';
 import SimilarsContainer from './containers/SimilarsContainer';
-import { Grid, Segment } from 'semantic-ui-react'
-// import './App.css';
+import { Grid, Segment } from 'semantic-ui-react';
+import './App.css';
 
 class App extends React.Component {
-  //possible rename functions w/o 'Click'
-
   state = {
     problems:[],
     similars: [],
@@ -47,8 +45,13 @@ class App extends React.Component {
 
   //[삭제]를 누른 경우
   onClickDelete = (problem) => {
-    //deleting from front-end only
-    
+    fetch(`http://localhost:3000/data/${problem.id}`, {
+      method: "DELETE"
+    })
+    .then(() => this.removeProblem(problem))
+  }
+
+  removeProblem = (problem) => {
     let filteredArray = this.state.problems.filter(p => p.id !== problem.id) 
 
     if (this.state.selectedProblem === problem.id) {
@@ -61,58 +64,115 @@ class App extends React.Component {
         problems: filteredArray
       })
     }
-
-    //deleting from back-end
-
   }
 
+  //[추가]를 누른 경우
   onClickAdd = (similar) => {
+    //POSTing in order?
+    fetch("http://localhost:3000/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(similar)
+    })
+    .then(response => response.json())
+    .then(similarObj => this.addSimiliar(similarObj))
+
+    fetch(`http://localhost:4000/data/${similar.id}`, {
+      method: "DELETE"
+    })
+    .then(() => {
+      this.removeSimilar(similar)
+    })
+  }
+
+  addSimiliar = (similar) => {
     let problem = this.state.problems.find(p => p.id === this.state.selectedProblem)
     let index = this.state.problems.indexOf(problem)
     let copy = [...this.state.problems]
     copy.splice(index+1, 0, similar)
 
+    this.setState({
+      problems: copy
+    })
+
+  }
+
+  removeSimilar = (similar) => {
     let filteredArray = this.state.similars.filter(s => s.id !== similar.id)
 
     this.setState({
-      problems: copy,
       similars: filteredArray
     })
   }
 
+  //[교체]를 누른 경우
   onClickSwitch = (similar) => {
     let problem = this.state.problems.find(p => p.id === this.state.selectedProblem)
+
+    fetch(`http://localhost:3000/data/${problem.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(similar)
+    })
+    .then(response => response.json())
+    .then(similarObj => this.switchToSimilar(problem, similarObj))
+
+    fetch(`http://localhost:4000/data/${similar.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(problem)
+    })
+    .then(response => response.json())
+    .then(problemObj => this.switchToProblem(problemObj, similar))
+  }
+
+  switchToSimilar = (problem, similar) => {
     let pIndex = this.state.problems.indexOf(problem)
-    let sIndex = this.state.similars.indexOf(similar)
-
     let problemsCopy = [...this.state.problems]
-    let similarsCopy = [...this.state.similars]
-
     problemsCopy.splice(pIndex, 1, similar)
-    similarsCopy.splice(sIndex, 1, problem)
 
     this.setState({
       problems: problemsCopy,
-      similars: similarsCopy,
       selectedProblem: similar.id,
       name: similar.unitName
     })
   }
 
+  switchToProblem = (problem, similar) => {
+    let sIndex = this.state.similars.indexOf(similar)
+    let similarsCopy = [...this.state.similars]
+    similarsCopy.splice(sIndex, 1, problem)
+
+    this.setState({
+      similars: similarsCopy
+    })
+  }
+
   render() {
     return (
-      <Grid stackable columns={2}>
-        <Grid.Column>
-          <Segment>
-            <ProblemsContainer problems={this.state.problems} selectedProblem={this.state.selectedProblem} onClickShow={this.onClickShow} onClickDelete={this.onClickDelete} />
-          </Segment>
-        </Grid.Column>
-        <Grid.Column>
-          <Segment>
-            <SimilarsContainer selectedProblem={this.state.selectedProblem} name={this.state.name} similars={this.state.similars} onClickAdd={this.onClickAdd} onClickSwitch={this.onClickSwitch} />
-          </Segment>
-        </Grid.Column>
-      </Grid>
+      <div className="questions-container">
+        <Grid stackable columns={2}>
+          <Grid.Column>
+            <Segment>
+              <ProblemsContainer problems={this.state.problems} selectedProblem={this.state.selectedProblem} onClickShow={this.onClickShow} onClickDelete={this.onClickDelete} />
+            </Segment>
+          </Grid.Column>
+          <Grid.Column>
+            <Segment>
+              <SimilarsContainer selectedProblem={this.state.selectedProblem} name={this.state.name} similars={this.state.similars} onClickAdd={this.onClickAdd} onClickSwitch={this.onClickSwitch} />
+            </Segment>
+          </Grid.Column>
+        </Grid>
+      </div>
     )
   }
 }

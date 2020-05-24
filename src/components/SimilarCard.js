@@ -1,31 +1,45 @@
 import React from 'react'
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Grid, Button, Card, Image } from 'semantic-ui-react'
 
 const SimilarCard = (props) => {
-    const { similar, onClickAdd, onClickSwitch } = props
+    const { number, similar, onClickAdd, onClickSwitch } = props
     const { problemType, unitName, problemURL } = similar
 
     return (
-        <Card.Group>
-            <Card fluid>
-                <Card.Content>
-                    <Card.Description>
-                        {problemType} <strong>{unitName}</strong>  
-                        <Button floated='right' size='small' inverted color='blue' onClick={() => onClickSwitch(similar)} >
-                            교체
-                        </Button>
-                        <Button floated='right' size='small' inverted color='blue' onClick={() => onClickAdd(similar)} >
-                            추가
-                        </Button>
-                    </Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                    <Image
-                    src={problemURL}
-                    />
-                </Card.Content>
-            </Card>
-        </Card.Group>
+        <Card fluid>
+            <Card.Content>
+                <Card.Description>
+                    <Grid>
+                        <Grid.Column width={2} textAlign='center'>
+                            <p className='problem-type'>{problemType}</p> 
+                        </Grid.Column>  
+                        <Grid.Column width={8}>
+                            <p className='unit-name'>{unitName}</p>
+                        </Grid.Column>
+                        <Grid.Column width={6}>
+                            <Button id='no-toggle' floated='right' onClick={() => onClickSwitch(similar)} >
+                                교체
+                            </Button>
+                            <Button id='no-toggle' floated='right' onClick={() => onClickAdd(similar)} >
+                                추가 
+                            </Button>
+                        </Grid.Column>
+                    </Grid>
+                </Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+                <Grid>
+                    <Grid.Column width={2} textAlign='center'>
+                        <p className='number'>{number}</p>
+                    </Grid.Column>
+                    <Grid.Column width={8}>
+                        <Image
+                        src={problemURL}
+                        />
+                    </Grid.Column>
+                </Grid>
+            </Card.Content>
+        </Card>
     )
 }
 

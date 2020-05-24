@@ -1,39 +1,46 @@
 import React from 'react'
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Grid, Button, Card, Image } from 'semantic-ui-react'
 
-class ProblemCard extends React.Component {
-    //maybe change to a functional component
+const ProblemCard = (props) => {
+    const { number, problem, selectedProblem, onClickShow, onClickDelete } = props
+    const { id, problemType, unitName, problemURL } = problem
 
-    render () {
-        const { number, problem, selectedProblem, onClickShow, onClickDelete } = this.props
-        const { id, problemType, unitName, problemURL } = problem
-
-        return (
-            //maybe move Card.Group to parent
-            
-            <Card.Group> 
-                <Card fluid>
-                    <Card.Content>
-                        <Card.Description id={id}>
-                            {problemType} <strong>{unitName}</strong>  
-                            <Button floated='right' size='small' inverted color='blue' onClick={() => onClickDelete(problem)} >
+    return (
+        <Card fluid>
+            <Card.Content>
+                <Card.Description>
+                    <Grid>
+                        <Grid.Column width={2} textAlign='center'>
+                            <p className='problem-type'>{problemType}</p> 
+                        </Grid.Column>  
+                        <Grid.Column width={8}>
+                            <p className='unit-name'>{unitName}</p>
+                        </Grid.Column>
+                        <Grid.Column width={6}>
+                            <Button id='no-toggle' floated='right' onClick={() => onClickDelete(problem)} >
                                 삭제
                             </Button>
-                            <Button floated='right' size='small' onClick={() => onClickShow(problem)} toggle active={selectedProblem === id}>
-                                유사문항 
+                            <Button id={selectedProblem === id ? 'toggle-on' : 'no-toggle'} floated='right' onClick={() => onClickShow(problem)} >
+                                유사문항
                             </Button>
-                        </Card.Description>
-                    </Card.Content>
-                    <Card.Content extra>
-                        <p>{number}</p>
+                        </Grid.Column>
+                    </Grid>
+                </Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+                <Grid>
+                    <Grid.Column width={2} textAlign='center'>
+                        <p className='number'>{number}</p>
+                    </Grid.Column>
+                    <Grid.Column width={8}>
                         <Image
                         src={problemURL}
                         />
-                    </Card.Content>
-                </Card>
-            </Card.Group>
-        )
-    }
+                    </Grid.Column>
+                </Grid>
+            </Card.Content>
+        </Card>
+    )
 }
 
 export default ProblemCard
