@@ -80,6 +80,25 @@ class App extends React.Component {
     })
   }
 
+  onClickSwitch = (similar) => {
+    let problem = this.state.problems.find(p => p.id === this.state.selectedProblem)
+    let pIndex = this.state.problems.indexOf(problem)
+    let sIndex = this.state.similars.indexOf(similar)
+
+    let problemsCopy = [...this.state.problems]
+    let similarsCopy = [...this.state.similars]
+
+    problemsCopy.splice(pIndex, 1, similar)
+    similarsCopy.splice(sIndex, 1, problem)
+
+    this.setState({
+      problems: problemsCopy,
+      similars: similarsCopy,
+      selectedProblem: similar.id,
+      name: similar.unitName
+    })
+  }
+
   render() {
     return (
       <Grid stackable columns={2}>
@@ -90,7 +109,7 @@ class App extends React.Component {
         </Grid.Column>
         <Grid.Column>
           <Segment>
-            <SimilarsContainer selectedProblem={this.state.selectedProblem} name={this.state.name} similars={this.state.similars} onClickAdd={this.onClickAdd} />
+            <SimilarsContainer selectedProblem={this.state.selectedProblem} name={this.state.name} similars={this.state.similars} onClickAdd={this.onClickAdd} onClickSwitch={this.onClickSwitch} />
           </Segment>
         </Grid.Column>
       </Grid>

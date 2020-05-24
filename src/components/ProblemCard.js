@@ -16,10 +16,10 @@ class ProblemCard extends React.Component {
                     <Card.Content>
                         <Card.Description id={id}>
                             {problemType} <strong>{unitName}</strong>  
-                            <Button floated='right' size='mini' inverted color='blue' onClick={() => onClickDelete(problem)} >
+                            <Button floated='right' size='small' inverted color='blue' onClick={() => onClickDelete(problem)} >
                                 삭제
                             </Button>
-                            <Button floated='right' size='mini' onClick={() => onClickShow(problem)} toggle active={selectedProblem === id}>
+                            <Button floated='right' size='small' onClick={() => onClickShow(problem)} toggle active={selectedProblem === id}>
                                 유사문항 
                             </Button>
                         </Card.Description>
