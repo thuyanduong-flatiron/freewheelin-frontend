@@ -72,8 +72,11 @@ class App extends React.Component {
     let copy = [...this.state.problems]
     copy.splice(index+1, 0, similar)
 
+    let filteredArray = this.state.similars.filter(s => s.id !== similar.id)
+
     this.setState({
-      problems: copy
+      problems: copy,
+      similars: filteredArray
     })
   }
 
