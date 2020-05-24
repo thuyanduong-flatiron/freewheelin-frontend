@@ -5,10 +5,13 @@ import { Grid, Segment } from 'semantic-ui-react'
 // import './App.css';
 
 class App extends React.Component {
+  //possible rename functions w/o 'Click'
+
   state = {
     problems:[],
     similars: [],
-    selectedProblem: null 
+    selectedProblem: null,
+    name: ""
   }
 
   componentDidMount = () => {
@@ -19,7 +22,7 @@ class App extends React.Component {
       problems: problemsArray
     }))
 
-    //유사유형
+    //유사문제
     fetch("http://localhost:4000/data")
     .then(response => response.json())
     .then(similarsArray => this.setState({
@@ -27,16 +30,50 @@ class App extends React.Component {
     }))
   }
 
-  //유사문항 버튼을 눌렀을 경우
-  onClickShow = (event) => {   
-    let id = event.target.parentElement.id
+  //[유사문항]을 누른 경우
+  onClickShow = (problem) => { 
+    let id = problem.id  
+    let name = this.state.problems.find(p => p.id === problem.id).unitName
 
     if (this.state.selectedProblem === id) {
       id = null
     } 
 
     this.setState({
-      selectedProblem: id
+      selectedProblem: id,
+      name: name
+    })
+  }
+
+  //[삭제]를 누른 경우
+  onClickDelete = (problem) => {
+    //deleting from front-end only
+    
+    let filteredArray = this.state.problems.filter(p => p.id !== problem.id) 
+
+    if (this.state.selectedProblem === problem.id) {
+      this.setState({
+        problems: filteredArray,
+        selectedProblem: null
+      })
+    } else {
+      this.setState({
+        problems: filteredArray
+      })
+    }
+
+    //deleting from back-end
+
+  }
+
+  onClickAdd = (similar) => {
+    let problem = this.state.problems.find(p => p.id === this.state.selectedProblem)
+    let index = this.state.problems.indexOf(problem)
+    let copy = [...this.state.problems]
+    copy.splice(index+1, 0, similar)
+
+    this.setState({
+      problems: copy
     })
   }
 
@@ -45,12 +82,12 @@ class App extends React.Component {
       <Grid stackable columns={2}>
         <Grid.Column>
           <Segment>
-            <ProblemsContainer problems={this.state.problems} selectedProblem={this.state.selectedProblem} onClickShow={this.onClickShow} />
+            <ProblemsContainer problems={this.state.problems} selectedProblem={this.state.selectedProblem} onClickShow={this.onClickShow} onClickDelete={this.onClickDelete} />
           </Segment>
         </Grid.Column>
         <Grid.Column>
           <Segment>
-            <SimilarsContainer similars={this.state.similars} selectedProblem={this.state.selectedProblem} />
+            <SimilarsContainer selectedProblem={this.state.selectedProblem} name={this.state.name} similars={this.state.similars} onClickAdd={this.onClickAdd} />
           </Segment>
         </Grid.Column>
       </Grid>

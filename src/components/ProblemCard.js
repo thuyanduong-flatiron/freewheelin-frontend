@@ -5,7 +5,7 @@ class ProblemCard extends React.Component {
     //maybe change to a functional component
 
     render () {
-        const { number, problem, selectedProblem, onClickShow } = this.props
+        const { number, problem, selectedProblem, onClickShow, onClickDelete } = this.props
         const { id, problemType, unitName, problemURL } = problem
 
         return (
@@ -16,10 +16,10 @@ class ProblemCard extends React.Component {
                     <Card.Content>
                         <Card.Description id={id}>
                             {problemType} <strong>{unitName}</strong>  
-                            <Button floated='right' size='mini' inverted color='blue'>
+                            <Button floated='right' size='mini' inverted color='blue' onClick={() => onClickDelete(problem)} >
                                 삭제
                             </Button>
-                            <Button floated='right' size='mini' onClick={onClickShow} toggle active={selectedProblem === id.toString()}>
+                            <Button floated='right' size='mini' onClick={() => onClickShow(problem)} toggle active={selectedProblem === id}>
                                 유사문항 
                             </Button>
                         </Card.Description>

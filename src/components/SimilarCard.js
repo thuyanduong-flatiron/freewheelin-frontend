@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Card, Image } from 'semantic-ui-react'
 
 const SimilarCard = (props) => {
-    const { similar } = props
+    const { similar, onClickAdd } = props
     const { problemType, unitName, problemURL } = similar
 
     return (
@@ -14,7 +14,7 @@ const SimilarCard = (props) => {
                         <Button floated='right' size='mini' inverted color='blue'>
                             교체
                         </Button>
-                        <Button floated='right' size='mini' inverted color='blue'>
+                        <Button floated='right' size='mini' inverted color='blue' onClick={() => onClickAdd(similar)} >
                             추가
                         </Button>
                     </Card.Description>

@@ -7,6 +7,8 @@ class SimilarsContainer extends React.Component {
     render() {
         //maybe think of better organization
 
+        const { selectedProblem, name, similars, onClickAdd } = this.props
+
         let placeholder = 
         <div>
             <center>
@@ -21,7 +23,15 @@ class SimilarsContainer extends React.Component {
         return (
             <div>
                 <center><strong>문항 교체/추가</strong></center>
-                {this.props.selectedProblem ? this.props.similars.map(s => <SimilarCard key={s.id} similar={s} />) : placeholder}
+                {selectedProblem ? (
+                    <div>
+                        <p>{name}</p>
+                        {similars.map(s => <SimilarCard key={s.id} similar={s} onClickAdd={onClickAdd} />)}
+                    </div>
+                    ) : (
+                        placeholder
+                    )
+                }
             </div>
         )
     }
