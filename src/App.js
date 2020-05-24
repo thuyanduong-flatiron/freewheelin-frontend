@@ -106,6 +106,12 @@ class App extends React.Component {
     this.setState({
       similars: filteredArray
     })
+
+    if (this.state.similars.length === 0) {
+      this.setState({
+        selectedProblem: null
+      })
+    }
   }
 
   //[교체]를 누른 경우
