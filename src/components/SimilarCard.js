@@ -18,10 +18,10 @@ const SimilarCard = (props) => {
                         </Grid.Column>
                         <Grid.Column width={6}>
                             <Button id='no-toggle' floated='right' onClick={() => onClickSwitch(similar)} >
-                                교체
+                                Switch
                             </Button>
                             <Button id='no-toggle' floated='right' onClick={() => onClickAdd(similar)} >
-                                추가 
+                                Add 
                             </Button>
                         </Grid.Column>
                     </Grid>

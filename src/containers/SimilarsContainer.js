@@ -8,7 +8,7 @@ class SimilarsContainer extends React.Component {
     
         return (
             <div>
-                <Card fluid header='문항 교체/추가'/>
+                <Card fluid header='Similar Problems'/>
                 {selectedProblem && similars.length > 0 ? (
                         <Card.Group className='cards-container'>
                             <Card fluid header={name}/>

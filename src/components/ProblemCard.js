@@ -18,10 +18,10 @@ const ProblemCard = (props) => {
                         </Grid.Column>
                         <Grid.Column width={6}>
                             <Button id='no-toggle' floated='right' onClick={() => onClickDelete(problem)} >
-                                삭제
+                                Delete
                             </Button>
                             <Button id={selectedProblem === id ? 'toggle-on' : 'no-toggle'} floated='right' onClick={() => onClickShow(problem)} >
-                                유사문항
+                                Show 
                             </Button>
                         </Grid.Column>
                     </Grid>
