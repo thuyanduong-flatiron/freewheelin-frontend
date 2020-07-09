@@ -8,7 +8,7 @@ class App extends React.Component {
   state = {
     problems:[],
     similars: [],
-    selectedProblem: null
+    selectedProblem: null // is either an object {} or has a null value
   }
 
   componentDidMount = () => {
