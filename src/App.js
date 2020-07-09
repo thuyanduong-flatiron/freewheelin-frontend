@@ -30,7 +30,7 @@ class App extends React.Component {
   //[유사문항]을 누른 경우
   onClickShow = (problem) => {
     if(this.state.selectedProblem === problem){
-      this.setState({selectedProblem: null}) //HERE
+      this.setState({selectedProblem: null})
     }else{
       this.setState({selectedProblem: problem
       })
