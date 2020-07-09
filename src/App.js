@@ -8,8 +8,7 @@ class App extends React.Component {
   state = {
     problems:[],
     similars: [],
-    selectedProblem: null,
-    name: ""
+    selectedProblem: null
   }
 
   componentDidMount = () => {
@@ -29,18 +28,13 @@ class App extends React.Component {
   }
 
   //[유사문항]을 누른 경우
-  onClickShow = (problem) => { 
-    let id = problem.id  
-    let name = this.state.problems.find(p => p.id === problem.id).unitName
-
-    if (this.state.selectedProblem === id) {
-      id = null
-    } 
-
-    this.setState({
-      selectedProblem: id,
-      name: name
-    })
+  onClickShow = (problem) => {
+    if(this.state.selectedProblem === problem){
+      this.setState({selectedProblem: null}) //HERE
+    }else{
+      this.setState({selectedProblem: problem
+      })
+    }
   }
 
   //[삭제]를 누른 경우
@@ -52,12 +46,12 @@ class App extends React.Component {
   }
 
   removeProblem = (problem) => {
-    let filteredArray = this.state.problems.filter(p => p.id !== problem.id) 
+    let filteredArray = this.state.problems.filter(p => p !== problem)
 
-    if (this.state.selectedProblem === problem.id) {
+    if (this.state.selectedProblem === problem) {
       this.setState({
         problems: filteredArray,
-        selectedProblem: null
+        selectedProblem: null //HERE
       })
     } else {
       this.setState({
@@ -89,8 +83,7 @@ class App extends React.Component {
   }
 
   addSimiliar = (similar) => {
-    let problem = this.state.problems.find(p => p.id === this.state.selectedProblem)
-    let index = this.state.problems.indexOf(problem)
+    let index = this.state.problems.indexOf(this.state.selectedProblem)
     let copy = [...this.state.problems]
     copy.splice(index+1, 0, similar)
 
@@ -101,7 +94,7 @@ class App extends React.Component {
   }
 
   removeSimilar = (similar) => {
-    let filteredArray = this.state.similars.filter(s => s.id !== similar.id)
+    let filteredArray = this.state.similars.filter(s => s !== similar)
 
     this.setState({
       similars: filteredArray
@@ -116,8 +109,7 @@ class App extends React.Component {
 
   //[교체]를 누른 경우
   onClickSwitch = (similar) => {
-    let problem = this.state.problems.find(p => p.id === this.state.selectedProblem)
-
+    let problem = this.state.selectedProblem
     fetch(`http://localhost:3000/data/${problem.id}`, {
       method: "PATCH",
       headers: {
@@ -148,8 +140,7 @@ class App extends React.Component {
 
     this.setState({
       problems: problemsCopy,
-      selectedProblem: similar.id,
-      name: similar.unitName
+      selectedProblem: similar
     })
   }
 
@@ -174,7 +165,7 @@ class App extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Segment>
-              <SimilarsContainer selectedProblem={this.state.selectedProblem} name={this.state.name} similars={this.state.similars} onClickAdd={this.onClickAdd} onClickSwitch={this.onClickSwitch} />
+              <SimilarsContainer selectedProblem={this.state.selectedProblem} similars={this.state.similars} onClickAdd={this.onClickAdd} onClickSwitch={this.onClickSwitch} />
             </Segment>
           </Grid.Column>
         </Grid>
