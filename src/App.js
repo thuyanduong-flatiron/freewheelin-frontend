@@ -51,7 +51,7 @@ class App extends React.Component {
     if (this.state.selectedProblem === problem) {
       this.setState({
         problems: filteredArray,
-        selectedProblem: null //HERE
+        selectedProblem: null
       })
     } else {
       this.setState({
